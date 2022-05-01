@@ -25,22 +25,22 @@ def main(wf: Workflow3):
             base_val = float(args[1])
         except ValueError:
             base_val = 1.0
-    supported_currencies = get_currencies_set()
+    supported_cur = get_currencies_set()
 
     # Results filter logic
-    allResults = []
-    savedResults = wf.filter(base, saved_quotes, match_on=MATCH_STARTSWITH)
+    all_results = []
+    saved_results = wf.filter(base, saved_quotes, match_on=MATCH_STARTSWITH)
     # base not in saved_quotes --> find in all currencies
-    if not savedResults:
-        allResults = wf.filter(base, supported_currencies, match_on=MATCH_STARTSWITH)
+    if not saved_results:
+        all_results = wf.filter(base, supported_cur, match_on=MATCH_STARTSWITH)
         # base invalid --> error msg
-        if not allResults:
+        if not all_results:
             wf.add_item(title="Currency " + base + " Not Found", icon=ICON_NOTE)
             wf.send_feedback()
             return
-        base = allResults[0]
+        base = all_results[0]
     else:
-        base = savedResults[0]
+        base = saved_results[0]
 
     rates = wf.cached_data(
         "rates", functools.partial(get_currency_rates, "USD"), max_age=900
@@ -48,18 +48,18 @@ def main(wf: Workflow3):
 
     # Case 1: base --> saved_quotes
     if len(args) < 3:
-        for quote in allResults:
+        for quote in all_results:
             val = get_quote_val(base, base_val, quote, rates)
             wf.add_item(
-                title=val,
+                title="{:,.2f}".format(val),
                 subtitle=quote,
                 icon="./flags/" + quote + ".png",
                 autocomplete=quote,
             )
-        if savedResults:
+        if saved_results:
             val = get_quote_val(base, base_val, base, rates)
             wf.add_item(
-                title=val,
+                title="{:,.2f}".format(val),
                 subtitle=base,
                 icon="./flags/" + base + ".png",
                 autocomplete=base,
@@ -71,7 +71,7 @@ def main(wf: Workflow3):
                 continue
             val = get_quote_val(base, base_val, quote, rates)
             wf.add_item(
-                title=val,
+                title="{:,.2f}".format(val),
                 subtitle=quote,
                 icon="./flags/" + quote + ".png",
                 autocomplete=quote,
@@ -82,13 +82,13 @@ def main(wf: Workflow3):
     # Case 2: base --> quote
     else:
         quote = args[2].upper()
-        allQuotes = wf.filter(quote, supported_currencies, match_on=MATCH_STARTSWITH)
+        allQuotes = wf.filter(quote, supported_cur, match_on=MATCH_STARTSWITH)
         if not allQuotes:
             wf.add_item(title="Currency " + quote + " Not Found", icon=ICON_NOTE)
         for quote in allQuotes:
             val = get_quote_val(base, base_val, quote, rates)
             wf.add_item(
-                title=val,
+                title="{:,.2f}".format(val),
                 subtitle=quote,
                 icon="./flags/" + quote + ".png",
                 autocomplete=quote,
