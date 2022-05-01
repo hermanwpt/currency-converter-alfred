@@ -8,11 +8,11 @@ def main(wf: Workflow3):
 
     saved_quotes = wf.stored_data("saved_quotes")
     if not saved_quotes or quote not in saved_quotes:
-        sys.stdout.write("Currency " + quote + " was not saved previously")
+        sys.stdout.write(quote + " was not saved previously")
         return
     saved_quotes.remove(quote)
     wf.store_data("saved_quotes", saved_quotes)
-    sys.stdout.write("Currency " + quote + " has been removed")
+    sys.stdout.write(quote + " has been removed")
 
 
 if __name__ == "__main__":

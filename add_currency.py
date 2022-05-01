@@ -10,11 +10,11 @@ def main(wf: Workflow3):
     if not saved_quotes:
         saved_quotes = []
     if quote in saved_quotes:
-        sys.stdout.write("Currency " + quote + " is already saved")
+        sys.stdout.write(quote + " is already saved")
         return
     saved_quotes.append(quote)
     wf.store_data("saved_quotes", saved_quotes)
-    sys.stdout.write("Currency " + quote + " has been added")
+    sys.stdout.write(quote + " has been added")
 
 
 if __name__ == "__main__":
