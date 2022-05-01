@@ -165,7 +165,7 @@
 	<key>createdby</key>
 	<string>Herman Wong</string>
 	<key>description</key>
-	<string>Currency Converter for Forex and Crypto</string>
+	<string>Currency Converter for Forex</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -570,7 +570,30 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>Commands available for this workflow:
+
+1. currency add [currency]
+Please use this command to add currencies you want to track.
+
+2. cur [base cur] [base cur amount (optional)] [quote cur (optional)]
+
+Case 1: cur CHF
+--&gt; value of tracked currencies relative to CHF 1
+
+Case 2: cur JPY 5000 
+--&gt; value of tracked currencies relative to JPY 5000
+
+Case 3: cur HKD 78 USD
+--&gt; value of USD relative to HKD 78
+
+Case 4: holding opt
+--&gt; remove this tracked currency
+
+3. currency clear
+Clear cached data
+
+4. currency reset
+Reset this workflow</string>
 	<key>uidata</key>
 	<dict>
 		<key>0C191BA0-C800-4E2B-AE27-BCB03FFCE1ED</key>
@@ -686,7 +709,11 @@
 			<integer>35</integer>
 		</dict>
 	</dict>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
 	<key>webaddress</key>
-	<string>hermanwpt</string>
+	<string>https://github.com/hermanwpt/alfred-currency-workflow</string>
 </dict>
 </plist>

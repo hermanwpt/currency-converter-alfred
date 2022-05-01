@@ -86,7 +86,7 @@ def main(wf: Workflow3):
         if not allQuotes:
             wf.add_item(title="Currency " + quote + " Not Found", icon=ICON_NOTE)
         for quote in allQuotes:
-            val = base_val * rates[quote]
+            val = get_quote_val(base, base_val, quote, rates)
             wf.add_item(
                 title=val,
                 subtitle=quote,
