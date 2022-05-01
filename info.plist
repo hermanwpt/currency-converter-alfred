@@ -7,7 +7,83 @@
 	<key>category</key>
 	<string>Tools</string>
 	<key>connections</key>
-	<dict/>
+	<dict>
+		<key>0D5F2D38-096E-409B-86CD-236AF579B3DF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>456B077E-0366-402D-BF9E-73231B08395D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>1DD4E5F4-32BF-4AAF-9A94-6F36C17741AF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>93DD4D34-77C0-46BA-880F-37335C6E03DC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>456B077E-0366-402D-BF9E-73231B08395D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>80360855-84C9-465E-9418-03E77DEF7E48</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>93DD4D34-77C0-46BA-880F-37335C6E03DC</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3290909B-98BF-4E64-96DC-C92CD0602779</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>FFD4B1A5-0FBB-4999-AAC9-B28B2CBD57CC</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6A9F4383-23B3-4C77-94EE-8463325DBC1B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>4C473A25-C2C1-4773-B977-5A46C3270E39</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Remove this currency</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
 	<key>createdby</key>
 	<string>Herman Wong</string>
 	<key>description</key>
@@ -26,11 +102,11 @@
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>0</integer>
 				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
+				<true/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
@@ -44,9 +120,9 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Fetching data...</string>
+				<string>Fetching currency data...</string>
 				<key>script</key>
-				<string>python3 ./currency_exchange.py "{query}"</string>
+				<string>python3 ./currency_rates.py "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -54,7 +130,7 @@
 				<key>subtext</key>
 				<string>Display currency exchange rate</string>
 				<key>title</key>
-				<string>Currency</string>
+				<string>Convert Currency</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -67,17 +143,277 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>python3 ./add_currency.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>6A9F4383-23B3-4C77-94EE-8463325DBC1B</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>python3 ./remove_currency.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>4C473A25-C2C1-4773-B977-5A46C3270E39</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Currency Converter</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>3290909B-98BF-4E64-96DC-C92CD0602779</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>python3 ./add_currency.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>93DD4D34-77C0-46BA-880F-37335C6E03DC</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>currency add</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Fetching currency data...</string>
+				<key>script</key>
+				<string>python3 ./get_currencies.py "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>List of matching currencies (keep typing currency name)</string>
+				<key>title</key>
+				<string>Add a new currency</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>1DD4E5F4-32BF-4AAF-9A94-6F36C17741AF</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>python3 ./clear_cache.py</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>456B077E-0366-402D-BF9E-73231B08395D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>currency clear</string>
+				<key>subtext</key>
+				<string>Clear cached data</string>
+				<key>text</key>
+				<string>Clear Cache</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>0D5F2D38-096E-409B-86CD-236AF579B3DF</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Currency Converter</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>80360855-84C9-465E-9418-03E77DEF7E48</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>0D5F2D38-096E-409B-86CD-236AF579B3DF</key>
+		<dict>
+			<key>xpos</key>
+			<integer>70</integer>
+			<key>ypos</key>
+			<integer>560</integer>
+		</dict>
+		<key>1DD4E5F4-32BF-4AAF-9A94-6F36C17741AF</key>
+		<dict>
+			<key>xpos</key>
+			<integer>70</integer>
+			<key>ypos</key>
+			<integer>370</integer>
+		</dict>
+		<key>3290909B-98BF-4E64-96DC-C92CD0602779</key>
+		<dict>
+			<key>xpos</key>
+			<integer>570</integer>
+			<key>ypos</key>
+			<integer>370</integer>
+		</dict>
+		<key>456B077E-0366-402D-BF9E-73231B08395D</key>
+		<dict>
+			<key>xpos</key>
+			<integer>325</integer>
+			<key>ypos</key>
+			<integer>560</integer>
+		</dict>
+		<key>4C473A25-C2C1-4773-B977-5A46C3270E39</key>
+		<dict>
+			<key>xpos</key>
+			<integer>325</integer>
+			<key>ypos</key>
+			<integer>180</integer>
+		</dict>
+		<key>6A9F4383-23B3-4C77-94EE-8463325DBC1B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>325</integer>
+			<key>ypos</key>
+			<integer>35</integer>
+		</dict>
+		<key>80360855-84C9-465E-9418-03E77DEF7E48</key>
+		<dict>
+			<key>xpos</key>
+			<integer>570</integer>
+			<key>ypos</key>
+			<integer>560</integer>
+		</dict>
+		<key>93DD4D34-77C0-46BA-880F-37335C6E03DC</key>
+		<dict>
+			<key>xpos</key>
+			<integer>325</integer>
+			<key>ypos</key>
+			<integer>370</integer>
+		</dict>
 		<key>FFD4B1A5-0FBB-4999-AAC9-B28B2CBD57CC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>370</integer>
+			<integer>65</integer>
 			<key>ypos</key>
-			<integer>145</integer>
+			<integer>35</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>
