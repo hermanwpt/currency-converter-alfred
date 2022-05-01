@@ -21,7 +21,10 @@ def main(wf: Workflow3):
     base = args[0].upper()
     base_val = 1.0
     if len(args) > 1:
-        base_val = float(args[1])
+        try:
+            base_val = float(args[1])
+        except ValueError:
+            base_val = 1.0
     supported_currencies = get_currencies_set()
 
     # Results filter logic
@@ -80,6 +83,8 @@ def main(wf: Workflow3):
     else:
         quote = args[2].upper()
         allQuotes = wf.filter(quote, supported_currencies, match_on=MATCH_STARTSWITH)
+        if not allQuotes:
+            wf.add_item(title="Currency " + quote + " Not Found", icon=ICON_NOTE)
         for quote in allQuotes:
             val = base_val * rates[quote]
             wf.add_item(

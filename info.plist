@@ -271,7 +271,7 @@
 				<key>subtext</key>
 				<string>Display currency exchange rate</string>
 				<key>title</key>
-				<string>Convert Currency</string>
+				<string>Convert currency</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -471,7 +471,7 @@
 				<key>subtext</key>
 				<string>Clear cached data</string>
 				<key>text</key>
-				<string>Clear Cache</string>
+				<string>Clear cache</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -534,7 +534,7 @@
 				<key>subtext</key>
 				<string>Reset currency converter workflow</string>
 				<key>text</key>
-				<string>Reset Currency Converter</string>
+				<string>Reset currency converter</string>
 				<key>withspace</key>
 				<false/>
 			</dict>

@@ -1,6 +1,5 @@
 import sys
-from workflow import Workflow3
-from workflow.workflow import ICON_NOTE
+from workflow import Workflow3, ICON_NOTE
 from currency_apis import get_currencies_set
 
 
