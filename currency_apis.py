@@ -1,23 +1,24 @@
 from workflow import Workflow3
 
 
-def get_currencies_list():
+def get_currencies_set():
     import requests
 
     wf = Workflow3()
 
-    currencies_list = wf.stored_data("currencies_list")
-    if currencies_list is not None:
-        return currencies_list
+    currencies_set = wf.stored_data("currencies_set")
+    if currencies_set is not None:
+        return currencies_set
 
     url = "https://api.exchangerate.host/latest"
+
     res = requests.get(url)
     res.raise_for_status()
     data = res.json()
-    currencies_list = list(data["rates"].keys())
+    currencies_set = set(data["rates"].keys())
+    wf.store_data("currencies_set", currencies_set)
 
-    wf.store_data("currencies_list", currencies_list)
-    return currencies_list
+    return currencies_set
 
 
 def get_currency_rates(base: str):
@@ -28,4 +29,9 @@ def get_currency_rates(base: str):
     res = requests.get(url, params={"base": base})
     res.raise_for_status()
     data = res.json()
+
     return data["rates"]
+
+
+def get_quote_val(base: str, base_val: float, quote: str, rates: set):
+    return base_val / rates[base] * rates[quote]

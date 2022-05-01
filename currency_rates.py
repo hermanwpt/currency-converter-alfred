@@ -1,40 +1,36 @@
-from re import sub
 import sys
 import functools
-from workflow import Workflow3
-from workflow.workflow import ICON_NOTE
-from currency_apis import get_currencies_list, get_currency_rates
+from workflow import Workflow3, ICON_NOTE, MATCH_STARTSWITH
+from currency_apis import get_currencies_set, get_currency_rates, get_quote_val
 
 # args[0]: base
 # args[1]: base_val (optional)
 # args[2]: quote (optional)
 def main(wf: Workflow3):
-    query = sys.argv[1]
-    args = query.split()
+    args = sys.argv[1].split()
 
-    # return if no args
-    if len(args) < 1:
+    if not len(args):
         return
 
-    # return if no saved currency
     saved_quotes = wf.stored_data("saved_quotes")
-    if saved_quotes is None:
-        wf.add_item(title="No Currency Is Saved", icon=ICON_NOTE)
+    if not saved_quotes:
+        wf.add_item(title="Please Add A Currency", icon=ICON_NOTE)
         wf.send_feedback()
         return
 
+    base = args[0].upper()
     base_val = 1.0
     if len(args) > 1:
         base_val = float(args[1])
-    base = args[0].upper()
-    supported_currencies = get_currencies_list()
+    supported_currencies = get_currencies_set()
 
-    # Filter logic
-    savedResults = wf.filter(base, saved_quotes)
-    # base not in saved_quotes
+    # Results filter logic
+    allResults = []
+    savedResults = wf.filter(base, saved_quotes, match_on=MATCH_STARTSWITH)
+    # base not in saved_quotes --> find in all currencies
     if not savedResults:
-        allResults = wf.filter(base, supported_currencies)
-        # base is invalid
+        allResults = wf.filter(base, supported_currencies, match_on=MATCH_STARTSWITH)
+        # base invalid --> error msg
         if not allResults:
             wf.add_item(title="Currency " + base + " Not Found", icon=ICON_NOTE)
             wf.send_feedback()
@@ -43,49 +39,61 @@ def main(wf: Workflow3):
     else:
         base = savedResults[0]
 
-    # Get exchange rates with base
     rates = wf.cached_data(
-        "rates:" + base, functools.partial(get_currency_rates, base), max_age=3600
+        "rates", functools.partial(get_currency_rates, "USD"), max_age=900
     )
 
-    # Case 1: base --> quote
-    if len(args) > 2:
-        quote = args[2].upper()
-        if quote in rates.keys():
+    # Case 1: base --> saved_quotes
+    if len(args) < 3:
+        for quote in allResults:
+            val = get_quote_val(base, base_val, quote, rates)
             wf.add_item(
-                title=base_val * rates[quote],
+                title=val,
                 subtitle=quote,
                 icon="./flags/" + quote + ".png",
+                autocomplete=quote,
             )
-    # Case 2: base --> saved_quotes
-    else:
-        if len(savedResults) == 0 and base not in supported_currencies:
-            for quote in allResults:
-                wf.add_item(
-                    title=base_val * rates[quote],
-                    subtitle=quote,
-                    icon="./flags/" + quote + ".png",
-                )
-        else:
+        if savedResults:
+            val = get_quote_val(base, base_val, base, rates)
             wf.add_item(
-                title=base_val * rates[base],
+                title=val,
                 subtitle=base,
                 icon="./flags/" + base + ".png",
+                autocomplete=base,
+                arg=(base, val),
+                valid=True,
             )
-            for quote in saved_quotes:
-                if base == quote:
-                    continue
-                wf.add_item(
-                    title=base_val * rates[quote],
-                    subtitle=quote,
-                    icon="./flags/" + quote + ".png",
-                )
+        for quote in saved_quotes:
+            if base == quote:
+                continue
+            val = get_quote_val(base, base_val, quote, rates)
+            wf.add_item(
+                title=val,
+                subtitle=quote,
+                icon="./flags/" + quote + ".png",
+                autocomplete=quote,
+                arg=(quote, val),
+                valid=True,
+            )
+
+    # Case 2: base --> quote
+    else:
+        quote = args[2].upper()
+        allQuotes = wf.filter(quote, supported_currencies, match_on=MATCH_STARTSWITH)
+        for quote in allQuotes:
+            val = base_val * rates[quote]
+            wf.add_item(
+                title=val,
+                subtitle=quote,
+                icon="./flags/" + quote + ".png",
+                autocomplete=quote,
+                arg=(quote, val),
+                valid=True,
+            )
 
     wf.send_feedback()
 
 
 if __name__ == "__main__":
     wf = Workflow3(libraries=["./lib"])
-    # Assign Workflow logger to a global variable for convenience
-    log = wf.logger
     sys.exit(wf.run(main))
