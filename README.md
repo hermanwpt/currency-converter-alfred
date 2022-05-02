@@ -25,3 +25,8 @@ This is a currency converter for alfred workflow. Exchange rate is updated every
 
 4. ```currency reset```
 - Reset this workflow
+
+## TODO Bug Fix
+
+- currency value does not round off to 2 d.p. when copied to clipboard
+- autocomplete does not work as intended for case 3 (cur HKD 78 USD)
