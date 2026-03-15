@@ -1,31 +1,17 @@
 # Currency Converter for Alfred
 
-This is a currency converter for alfred workflow. Exchange rate is updated every 15 mins.
+Simple Alfred workflow to convert currencies. Exchange rates update every 15 minutes.
 
-## Commands available for this workflow:
+Quick summary
+- Add tracked currencies: ccy add CODE
+- Convert: ccy BASE [AMOUNT] [QUOTE]
+  - ccy CHF → tracked currencies relative to CHF 1
+  - ccy JPY 5000 → tracked currencies relative to JPY 5000
+  - ccy HKD 78 USD → USD relative to HKD 78
+- Clear cache: ccy clear
+- Reset workflow: ccy reset
 
-1. `currency add [currency]`
-
-- Please use this command to add currencies you want to track.
-
-2. `cur [base cur] [base cur amount (optional)] [quote cur (optional)]`
-
-- Case 1: `cur CHF`
-  --> value of tracked currencies relative to CHF 1
-
-- Case 2: `cur JPY 5000`
-  --> value of tracked currencies relative to JPY 5000
-
-- Case 3: `cur HKD 78 USD`
-  --> value of USD relative to HKD 78
-
-- Case 4: `holding opt`
-  --> remove this tracked currency
-
-3. `currency clear`
-
-- Clear cached data
-
-4. `currency reset`
-
-- Reset this workflow
+Notes
+- Currency codes are case-insensitive.
+- Workflow prefers tracked (saved) currencies when matching; if matched, the matched saved currency is shown first.
+- Amounts are shown with two decimal places and comma separators.

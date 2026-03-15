@@ -1,42 +1,35 @@
 import sys
-import json
-from workflow import Workflow3, ICON_NOTE, MATCH_SUBSTRING
-from currency_apis import get_supported_currencies
-from utils.common_utils import get_query, get_icon
 
-
-def get_currencies_code_name() -> set[tuple]:
-    currency_code_name_map = json.load(open("./src/assets/currency_code_name_map.json"))
-    return set(
-        (cur, currency_code_name_map[cur])
-        for cur in get_supported_currencies()
-        if cur in currency_code_name_map
-    )
+from services.abstract_exchange_rates_service import Currency
+from services.free_exchange_rates_service import FreeExchangeRatesService
+from utils import display_currency_not_found, get_ccy_icon, get_query
+from workflow import MATCH_SUBSTRING, Workflow3
 
 
 def main(wf: Workflow3):
     query = get_query()
-    new_currency = query[0]
 
-    currencies_code_name = wf.cached_data(
-        "currencies_code_name", get_currencies_code_name, 60 * 60 * 24
-    )
+    exchange_rates_service = FreeExchangeRatesService(workflow=wf)
 
-    results = wf.filter(
-        new_currency,
-        currencies_code_name,
-        lambda code_name: "{} {}".format(code_name[0], code_name[1]),
+    currencies = exchange_rates_service.get_all_currencies()
+
+    filtered_currencies: list[Currency] = wf.filter(
+        query[0],
+        currencies,
+        lambda c: f"{c.ccy_code} {c.ccy_name}",
         match_on=MATCH_SUBSTRING,
     )
 
-    if not results:
-        wf.add_item("Currency Not Found", icon=ICON_NOTE)
+    if not filtered_currencies:
+        display_currency_not_found(query[0], wf)
+        return
 
-    for res in results:
+    for ccy in filtered_currencies:
+        ccy_code, ccy_name = ccy.ccy_code, ccy.ccy_name
         wf.add_item(
-            title=res[0] + ": " + res[1],
-            icon=get_icon(res[0]),
-            arg=res[0],
+            title=f"{ccy_code}: {ccy_name}",
+            icon=get_ccy_icon(ccy_code),
+            arg=ccy_code,
             valid=True,
         )
 

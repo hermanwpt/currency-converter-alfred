@@ -1,6 +1,6 @@
 import sys
-from workflow import Workflow3
 
+from workflow import Workflow3
 
 wf = Workflow3()
 wf.reset()

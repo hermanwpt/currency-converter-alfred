@@ -1,19 +1,24 @@
 import sys
+
+from services.currency_service import CurrencyService
+from utils import get_query
 from workflow import Workflow3
-from utils.common_utils import get_query
 
 
 def main(wf: Workflow3):
     query = get_query()
-    currency = query[0]
+    ccy = query[0]
 
-    saved_currencies = wf.stored_data("saved_currencies")
-    if not saved_currencies or currency not in saved_currencies:
-        sys.stdout.write(currency + " is not found")
+    ccy_service = CurrencyService(workflow=wf)
+
+    saved_ccy_codes = ccy_service.get_saved_currency_codes()
+
+    if not saved_ccy_codes or ccy not in saved_ccy_codes:
+        sys.stdout.write(f"{ccy} is not found")
         return
-    saved_currencies.remove(currency)
-    wf.store_data("saved_currencies", saved_currencies)
-    sys.stdout.write(currency + " has been removed")
+
+    ccy_service.remove_currency_code(ccy)
+    sys.stdout.write(f"{ccy} has been removed")
 
 
 if __name__ == "__main__":

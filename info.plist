@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.hermanwpt.alfred.currency</string>
+	<key>category</key>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>0C191BA0-C800-4E2B-AE27-BCB03FFCE1ED</key>
@@ -230,7 +232,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>cur</string>
+				<string>ccy</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -287,6 +289,10 @@
 			<dict>
 				<key>delimiter</key>
 				<string>;</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
 				<key>trimarguments</key>
 				<true/>
 				<key>variableprefix</key>
@@ -403,7 +409,7 @@
 				<key>escaping</key>
 				<integer>103</integer>
 				<key>keyword</key>
-				<string>currency add</string>
+				<string>ccy add</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -465,7 +471,7 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>python3 ./src/utils/clear_cache.py</string>
+				<string>python3 ./src/clear_cache.py</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -486,7 +492,7 @@
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>keyword</key>
-				<string>currency clear</string>
+				<string>ccy clear</string>
 				<key>subtext</key>
 				<string>Clear cached data</string>
 				<key>text</key>
@@ -528,7 +534,7 @@
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>keyword</key>
-				<string>currency reset</string>
+				<string>ccy reset</string>
 				<key>subtext</key>
 				<string>Reset currency converter workflow</string>
 				<key>text</key>
@@ -551,7 +557,7 @@
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>python3 ./src/utils/reset_workflow.py</string>
+				<string>python3 ./src/reset_workflow.py</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -597,116 +603,118 @@ Reset this workflow</string>
 		<key>0C191BA0-C800-4E2B-AE27-BCB03FFCE1ED</key>
 		<dict>
 			<key>xpos</key>
-			<integer>695</integer>
+			<real>695</real>
 			<key>ypos</key>
-			<integer>35</integer>
+			<real>35</real>
 		</dict>
 		<key>0D5F2D38-096E-409B-86CD-236AF579B3DF</key>
 		<dict>
 			<key>xpos</key>
-			<integer>70</integer>
+			<real>70</real>
 			<key>ypos</key>
-			<integer>560</integer>
+			<real>560</real>
 		</dict>
 		<key>1DD4E5F4-32BF-4AAF-9A94-6F36C17741AF</key>
 		<dict>
 			<key>xpos</key>
-			<integer>70</integer>
+			<real>70</real>
 			<key>ypos</key>
-			<integer>370</integer>
+			<real>370</real>
 		</dict>
 		<key>3290909B-98BF-4E64-96DC-C92CD0602779</key>
 		<dict>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>370</integer>
+			<real>370</real>
 		</dict>
 		<key>456B077E-0366-402D-BF9E-73231B08395D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>325</integer>
+			<real>325</real>
 			<key>ypos</key>
-			<integer>560</integer>
+			<real>560</real>
 		</dict>
 		<key>4C473A25-C2C1-4773-B977-5A46C3270E39</key>
 		<dict>
 			<key>xpos</key>
-			<integer>325</integer>
+			<real>325</real>
 			<key>ypos</key>
-			<integer>180</integer>
+			<real>180</real>
 		</dict>
 		<key>6A9F4383-23B3-4C77-94EE-8463325DBC1B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>325</integer>
+			<real>325</real>
 			<key>ypos</key>
-			<integer>35</integer>
+			<real>35</real>
 		</dict>
 		<key>6E17B99E-5E1F-4FEB-B342-A012AAB09E65</key>
 		<dict>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>180</integer>
+			<real>180</real>
 		</dict>
 		<key>80360855-84C9-465E-9418-03E77DEF7E48</key>
 		<dict>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>560</integer>
+			<real>560</real>
 		</dict>
 		<key>93DD4D34-77C0-46BA-880F-37335C6E03DC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>325</integer>
+			<real>325</real>
 			<key>ypos</key>
-			<integer>370</integer>
+			<real>370</real>
 		</dict>
 		<key>AEC33078-8B48-4D99-B50D-481B769F666B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>550</integer>
+			<real>550</real>
 			<key>ypos</key>
-			<integer>65</integer>
+			<real>65</real>
 		</dict>
 		<key>B701CF96-A86A-47D1-BB1B-E85DD09194B2</key>
 		<dict>
 			<key>xpos</key>
-			<integer>325</integer>
+			<real>325</real>
 			<key>ypos</key>
-			<integer>745</integer>
+			<real>745</real>
 		</dict>
 		<key>DC3D45DA-4DB5-46A7-89C7-880133531627</key>
 		<dict>
 			<key>xpos</key>
-			<integer>570</integer>
+			<real>570</real>
 			<key>ypos</key>
-			<integer>745</integer>
+			<real>745</real>
 		</dict>
 		<key>DE332B0E-A580-4347-89E0-10F6B2AC947D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>945</integer>
+			<real>945</real>
 			<key>ypos</key>
-			<integer>35</integer>
+			<real>35</real>
 		</dict>
 		<key>E09DA531-7669-474B-8B21-B21856E6205B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>70</integer>
+			<real>70</real>
 			<key>ypos</key>
-			<integer>745</integer>
+			<real>745</real>
 		</dict>
 		<key>FFD4B1A5-0FBB-4999-AAC9-B28B2CBD57CC</key>
 		<dict>
 			<key>xpos</key>
-			<integer>65</integer>
+			<real>65</real>
 			<key>ypos</key>
-			<integer>35</integer>
+			<real>35</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>

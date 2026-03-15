@@ -1,19 +1,24 @@
 import sys
+
+from services.currency_service import CurrencyService
+from utils import get_query
 from workflow import Workflow3
-from utils.common_utils import get_query
 
 
 def main(wf: Workflow3):
     query = get_query()
-    currency = query[0]
+    ccy = query[0]
 
-    saved_currencies = wf.stored_data("saved_currencies") or []
-    if currency in saved_currencies:
-        sys.stdout.write(currency + " is already saved")
+    ccy_service = CurrencyService(workflow=wf)
+
+    saved_ccy_codes = ccy_service.get_saved_currency_codes()
+
+    if ccy in saved_ccy_codes:
+        sys.stdout.write(f"{ccy} is already saved")
         return
-    saved_currencies.append(currency)
-    wf.store_data("saved_currencies", saved_currencies)
-    sys.stdout.write(currency + " has been added")
+
+    ccy_service.add_currency_code(ccy)
+    sys.stdout.write(f"{ccy} has been added")
 
 
 if __name__ == "__main__":
