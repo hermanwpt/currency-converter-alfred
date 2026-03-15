@@ -9,33 +9,33 @@ from workflow import MATCH_STARTSWITH, Workflow3
 _INTERNAL_BASE_CCY = "USD"
 
 
-def _get_saved_currency_codes_with_default(ccy_service: CurrencyService):
-    saved = ccy_service.get_saved_currency_codes()
-    if not saved:
-        ccy_service.add_currency_code(_INTERNAL_BASE_CCY)
-        saved = ccy_service.get_saved_currency_codes()
-    return saved
+def _get_tracked_ccy_codes_with_default(ccy_service: CurrencyService):
+    tracked = ccy_service.get_tracked_ccy_codes()
+    if not tracked:
+        ccy_service.add_ccy_code(_INTERNAL_BASE_CCY)
+        tracked = ccy_service.get_tracked_ccy_codes()
+    return tracked
 
 
 def _compute_base_ccy_and_quote_ccy_list(
     wf: Workflow3,
     query_token: str,
-    saved_codes: set[str],
+    tracked_codes: set[str],
     all_codes: set[str],
 ) -> tuple[str, list[str]]:
     token_upper = query_token.upper()
 
-    filtered_saved = wf.filter(token_upper, saved_codes, match_on=MATCH_STARTSWITH)
-    if filtered_saved:
-        matched = filtered_saved[0]
-        reordered_saved = [matched] + [c for c in saved_codes if c != matched]
-        return matched, reordered_saved
+    filtered_tracked = wf.filter(token_upper, tracked_codes, match_on=MATCH_STARTSWITH)
+    if filtered_tracked:
+        matched = filtered_tracked[0]
+        reordered_tracked = [matched] + [c for c in tracked_codes if c != matched]
+        return matched, reordered_tracked
 
     filtered_all = wf.filter(token_upper, all_codes, match_on=MATCH_STARTSWITH)
     if filtered_all:
         matched = filtered_all[0]
-        all_and_saved_codes = filtered_all + list(saved_codes)
-        reordered_all = [matched] + [c for c in all_and_saved_codes if c != matched]
+        all_plus_tracked_codes = filtered_all + list(tracked_codes)
+        reordered_all = [matched] + [c for c in all_plus_tracked_codes if c != matched]
         return matched, reordered_all
 
     return None, []
@@ -71,16 +71,14 @@ def main(wf: Workflow3):
     ccy_service = CurrencyService(workflow=wf)
     exchange_rates_service = FreeExchangeRatesService(workflow=wf)
 
-    saved_ccy_codes = _get_saved_currency_codes_with_default(ccy_service)
-    all_ccy_codes = {
-        ccy.ccy_code for ccy in exchange_rates_service.get_all_currencies()
-    }
+    tracked_codes = _get_tracked_ccy_codes_with_default(ccy_service)
+    all_codes = {ccy.ccy_code for ccy in exchange_rates_service.get_all_currencies()}
     rates = exchange_rates_service.get_exchange_rates_by_base_ccy(
         _INTERNAL_BASE_CCY
     ).rates
 
     base_ccy, quote_ccy_list = _compute_base_ccy_and_quote_ccy_list(
-        wf, query[0], saved_ccy_codes, all_ccy_codes
+        wf, query[0], tracked_codes, all_codes
     )
     if not base_ccy:
         display_currency_not_found(query[0].upper(), wf)
@@ -94,7 +92,7 @@ def main(wf: Workflow3):
         )
     else:
         quote_ccy_matches = wf.filter(
-            query[2].upper(), all_ccy_codes, match_on=MATCH_STARTSWITH
+            query[2].upper(), all_codes, match_on=MATCH_STARTSWITH
         )
         if not quote_ccy_matches:
             display_currency_not_found(query[2].upper(), wf)

@@ -11,13 +11,13 @@ def main(wf: Workflow3):
 
     ccy_service = CurrencyService(workflow=wf)
 
-    saved_ccy_codes = ccy_service.get_saved_currency_codes()
+    tracked_ccy_codes = ccy_service.get_tracked_ccy_codes()
 
-    if ccy in saved_ccy_codes:
+    if tracked_ccy_codes and ccy in tracked_ccy_codes:
         sys.stdout.write(f"{ccy} is already saved")
         return
 
-    ccy_service.add_currency_code(ccy)
+    ccy_service.add_ccy_code(ccy)
     sys.stdout.write(f"{ccy} has been added")
 
 

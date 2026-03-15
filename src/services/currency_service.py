@@ -6,7 +6,7 @@ from workflow.workflow3 import Workflow3
 
 class CurrencyService:
 
-    PERSIST_SAVED_CURRENCY_CODES_KEY = "__SAVED_CURRENCY_CODES__"
+    PERSIST_TRACKED_CCY_CODES_KEY = "__TRACKED_CCY_CODES__"
 
     _SUFFIX_MULTIPLIERS = {
         "k": Decimal(10) ** 3,
@@ -18,19 +18,19 @@ class CurrencyService:
     def __init__(self, workflow: Workflow3):
         self.wf = workflow
 
-    def get_saved_currency_codes(self) -> set[str]:
-        return self.wf.stored_data(self.PERSIST_SAVED_CURRENCY_CODES_KEY) or set()
+    def get_tracked_ccy_codes(self) -> set[str]:
+        return self.wf.stored_data(self.PERSIST_TRACKED_CCY_CODES_KEY) or set()
 
-    def add_currency_code(self, ccy_code: str) -> str:
-        saved_currency_codes = self.get_saved_currency_codes()
-        saved_currency_codes.add(ccy_code)
-        self.wf.store_data(self.PERSIST_SAVED_CURRENCY_CODES_KEY, saved_currency_codes)
+    def add_ccy_code(self, ccy_code: str) -> str:
+        ccy_codes = self.get_tracked_ccy_codes()
+        ccy_codes.add(ccy_code)
+        self.wf.store_data(self.PERSIST_TRACKED_CCY_CODES_KEY, ccy_codes)
         return ccy_code
 
-    def remove_currency_code(self, ccy_code: str) -> None:
-        saved_currency_codes = self.get_saved_currency_codes()
-        saved_currency_codes.remove(ccy_code)
-        self.wf.store_data(self.PERSIST_SAVED_CURRENCY_CODES_KEY, saved_currency_codes)
+    def remove_ccy_code(self, ccy_code: str) -> None:
+        ccy_codes = self.get_tracked_ccy_codes()
+        ccy_codes.remove(ccy_code)
+        self.wf.store_data(self.PERSIST_TRACKED_CCY_CODES_KEY, ccy_codes)
 
     def compute_quote_ccy_amt(
         self, base_ccy: str, base_ccy_amt: Decimal, quote_ccy: str, rates: set

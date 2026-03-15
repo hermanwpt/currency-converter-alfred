@@ -11,13 +11,13 @@ def main(wf: Workflow3):
 
     ccy_service = CurrencyService(workflow=wf)
 
-    saved_ccy_codes = ccy_service.get_saved_currency_codes()
+    tracked_ccy_codes = ccy_service.get_tracked_ccy_codes()
 
-    if not saved_ccy_codes or ccy not in saved_ccy_codes:
+    if not tracked_ccy_codes or ccy not in tracked_ccy_codes:
         sys.stdout.write(f"{ccy} is not found")
         return
 
-    ccy_service.remove_currency_code(ccy)
+    ccy_service.remove_ccy_code(ccy)
     sys.stdout.write(f"{ccy} has been removed")
 
 

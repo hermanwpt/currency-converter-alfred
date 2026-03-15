@@ -30,5 +30,5 @@ def get_query() -> list[str]:
     return sys.argv[1].split()
 
 
-def get_ccy_icon(currency: str) -> str:
-    return f"./src/assets/flags/{currency}.png"
+def get_ccy_icon(ccy_code: str) -> str:
+    return f"./src/assets/flags/{ccy_code}.png"
